@@ -2,8 +2,9 @@
 ###   This one shouldn't have to be rerun each time, small edits should happen in a SQL environment
 ###
 
-
+library(readxl)
 library(dplyr)
+library(tools)
 ####
 source("C:/Users/bgillis/Documents/R/SQL Connections.R")
 con <- mssql_con("ccn")
@@ -46,7 +47,7 @@ for (file in files) {
 #####  fix some inconsistencies
 
 ci0$sql_data_type <- ifelse(substr(ci0$sql_data_type,1,7) =='varchar', 'varchar', ci0$sql_data_type)
-
+ci0$sql_data_type <- ifelse(substr(ci0$sql_data_type,1,7) =='varchar', 'varchar(255)', ci0$sql_data_type)
 
 ####  Move to MSSQL
 sqlQuery(con, "Drop Table if Exists report_column_info")
